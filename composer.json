@@ -1,0 +1,31 @@
+{
+  "name": "domain-query-language/event-log",
+  "description": "Aggregate based EventLog for event sourcing.",
+  "keywords": ["Event Sourced", "Event", "Log", "Store"],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=5.6",
+    "ramsey/uuid": "3.4.*"
+  },
+  "require-dev": {
+    "mockery/mockery": "0.9.*",
+    "phpunit/phpunit": "5.4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "EventSourced\\": "src/",
+      "Tests\\": "tests/"
+    }
+  },
+  "autoload-dev": {
+  },
+  "scripts": {
+    "test": [
+      "vendor/bin/phpunit"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  }
+}
