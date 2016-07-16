@@ -1,4 +1,4 @@
-<?php namespace Tests\EventLog;
+<?php namespace Tests\Unit\EventLog;
 
 use EventSourced\EventLog\StreamID;
 

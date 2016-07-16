@@ -1,4 +1,4 @@
-<?php namespace Tests\EventLog;
+<?php namespace Tests\Unit\EventLog;
 
 class DateTimeGeneratorTest extends \Tests\TestCase
 {    

@@ -1,4 +1,4 @@
-<?php namespace Tests\EventLog;
+<?php namespace Tests\Integration\EventLog;
 
 use Tests\TestCase;
 use EventSourced\EventLog\EventBuilder;

@@ -1,4 +1,4 @@
-<?php namespace Tests\EventLog;
+<?php namespace Tests\Unit\EventLog;
 
 class IDGeneratorTest extends \Tests\TestCase
 {    

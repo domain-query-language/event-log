@@ -1,8 +1,8 @@
-<?php namespace Tests\EventLog\PDO;
+<?php namespace Tests\Integration\EventLog\PDO\SQLite;
 
 use EventSourced\EventLog\Adapter\PDO\SQLite\EventRepository;
 use EventSourced\EventLog\Adapter\PDO\SQLite\Migration\CreateEventLogTable;
-use Tests\EventLog\AbstractEventRepositoryTest;
+use Tests\Integration\EventLog\AbstractEventRepositoryTest;
 
 class EventRepositoryTest extends AbstractEventRepositoryTest
 {    

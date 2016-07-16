@@ -1,6 +1,6 @@
-<?php namespace Tests\EventLog\PDO;
+<?php namespace Tests\Integration\EventLog\PDO\SQLite;
 
-use Tests\EventLog\AbstractEventStreamLockerTest;
+use Tests\Integration\EventLog\AbstractEventStreamLockerTest;
 use EventSourced\EventLog\Adapter\PDO\SQLite\EventStreamLocker;
 use EventSourced\EventLog\DateTimeGenerator;
 use EventSourced\EventLog\Adapter\PDO\SQLite\Migration\CreateEventStreamLockerTable;
