@@ -1,10 +1,10 @@
-<?php namespace EventSourced\EventLog\Adapter\Laravel;
+<?php namespace EventSourced\EventLog\Adapter\Laravel\MySQL;
 
 use EventSourced\EventLog\EventBuilder;
-use EventSourced\EventLog\PDO;
+use EventSourced\EventLog\Adapter\PDO\MySQL;
 use DB;
 
-class EventRepository extends PDO\EventRepository
+class EventRepository extends MySQL\EventRepository
 {
     public function __construct(EventBuilder $event_builder)
     {

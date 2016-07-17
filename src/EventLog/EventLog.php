@@ -19,11 +19,18 @@ class EventLog
         $this->event_repository->store($events);
     }
     
+    /**
+     * @param \EventSourced\EventLog\StreamID $aggregate_id
+     * @return \EventSourced\EventLog\AggregateEventStream
+     */
     public function fetch(StreamID $aggregate_id)
     {
         return $this->event_stream_factory->aggregate_id($aggregate_id);
     }
     
+    /**
+     * @return \EventSourced\EventLog\FullEventStream
+     */
     public function all()
     {
         return $this->event_stream_factory->all();

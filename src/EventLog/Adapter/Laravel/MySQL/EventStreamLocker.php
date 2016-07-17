@@ -1,10 +1,10 @@
-<?php namespace EventSourced\EventLog\Adapter\Laravel;
+<?php namespace EventSourced\EventLog\Adapter\Laravel\MySQL;
 
 use EventSourced\EventLog\DateTimeGenerator;
-use EventSourced\EventLog\PDO;
+use EventSourced\EventLog\Adapter\PDO\MySQL;
 use DB;
 
-class EventStreamLocker extends PDO\EventStreamLocker
+class EventStreamLocker extends MySQL\EventStreamLocker
 {
     public function __construct(DateTimeGenerator $datetime_generator)
     {
