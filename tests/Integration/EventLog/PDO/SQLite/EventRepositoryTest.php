@@ -1,7 +1,7 @@
-<?php namespace Tests\Integration\EventLog\PDO\MySQL;
+<?php namespace Tests\Integration\EventLog\PDO\SQLite;
 
-use EventSourced\EventLog\Adapter\PDO\MysQL\EventRepository;
-use EventSourced\EventLog\Adapter\PDO\MysQL\Migration\CreateEventLogTable;
+use EventSourced\EventLog\Adapter\PDO\SQLite\EventRepository;
+use EventSourced\EventLog\Adapter\PDO\SQLite\Migration\CreateEventLogTable;
 use Tests\Integration\EventLog\AbstractEventRepositoryTest;
 
 class EventRepositoryTest extends AbstractEventRepositoryTest
@@ -11,8 +11,7 @@ class EventRepositoryTest extends AbstractEventRepositoryTest
     
     public function setUp()
     {
-        $this->pdo = new \PDO('mysql:host=192.168.10.11;dbname=homestead;charset=utf8mb4', 'homestead', 'secret');
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo = (new PDOFactory())->make();
         $this->migration = new CreateEventLogTable($this->pdo);
         $this->migration->up();
         parent::setUp();

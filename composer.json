@@ -14,11 +14,13 @@
   },
   "autoload": {
     "psr-4": {
-      "EventSourced\\": "src/",
-      "Tests\\": "tests/"
+      "EventSourced\\": "src/"
     }
   },
   "autoload-dev": {
+    "psr-4": { 
+      "Tests\\": "tests/" 
+    }
   },
   "scripts": {
     "test-unit": [

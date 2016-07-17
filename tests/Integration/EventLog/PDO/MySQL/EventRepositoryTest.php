@@ -1,7 +1,7 @@
-<?php namespace Tests\Integration\EventLog\PDO\SQLite;
+<?php namespace Tests\Integration\EventLog\PDO\MySQL;
 
-use EventSourced\EventLog\Adapter\PDO\SQLite\EventRepository;
-use EventSourced\EventLog\Adapter\PDO\SQLite\Migration\CreateEventLogTable;
+use EventSourced\EventLog\Adapter\PDO\MysQL\EventRepository;
+use EventSourced\EventLog\Adapter\PDO\MysQL\Migration\CreateEventLogTable;
 use Tests\Integration\EventLog\AbstractEventRepositoryTest;
 
 class EventRepositoryTest extends AbstractEventRepositoryTest
@@ -11,8 +11,7 @@ class EventRepositoryTest extends AbstractEventRepositoryTest
     
     public function setUp()
     {
-        $this->pdo = new \PDO('sqlite::memory:');
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo = (new PDOFactory())->make();
         $this->migration = new CreateEventLogTable($this->pdo);
         $this->migration->up();
         parent::setUp();

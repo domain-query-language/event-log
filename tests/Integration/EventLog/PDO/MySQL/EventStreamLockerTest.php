@@ -1,9 +1,9 @@
-<?php namespace Tests\Integration\EventLog\PDO\SQLite;
+<?php namespace Tests\Integration\EventLog\PDO\MySQL;
 
 use Tests\Integration\EventLog\AbstractEventStreamLockerTest;
-use EventSourced\EventLog\Adapter\PDO\SQLite\EventStreamLocker;
+use EventSourced\EventLog\Adapter\PDO\MySQL\EventStreamLocker;
+use EventSourced\EventLog\Adapter\PDO\MySQL\Migration\CreateEventStreamLockerTable;
 use EventSourced\EventLog\DateTimeGenerator;
-use EventSourced\EventLog\Adapter\PDO\SQLite\Migration\CreateEventStreamLockerTable;
 
 class EventStreamLockerTest extends AbstractEventStreamLockerTest
 {    
@@ -12,8 +12,7 @@ class EventStreamLockerTest extends AbstractEventStreamLockerTest
     
     public function setUp()
     {
-        $this->pdo = new \PDO('sqlite::memory:');
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo = (new PDOFactory())->make();
         $this->migration = new CreateEventStreamLockerTable($this->pdo);
         $this->migration->up();
         parent::setUp();
