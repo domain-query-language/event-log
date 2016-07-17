@@ -5,6 +5,7 @@ use EventSourced\EventLog\Event;
 use EventSourced\EventLog\IDGenerator;
 use EventSourced\EventLog\DateTimeGenerator;
 use EventSourced\EventLog\Schema;
+use EventSourced\EventLog\EventBuilderException;
 
 class EventBuilderTest extends \Tests\TestCase
 {
@@ -23,13 +24,18 @@ class EventBuilderTest extends \Tests\TestCase
             $stub_id_generator->reveal(), 
             $stub_datetime_generator->reveal()
         );
+        $this->prepare_event();
+        
+        $this->event = $this->event_builder->build();
+    }
+    
+    private function prepare_event()
+    {
         $this->event_builder->set_aggregate_id("a955d32b-0130-463f-b3ef-23adec9af469")
             ->set_payload((object)['value'=>true])     
             ->set_command_id("88f2ecaa-81dd-467f-851d-cdd214f3f3bb")
             ->set_schema_event_id("14c3896d-092e-4370-bf72-2093facc9792")
             ->set_schema_aggregate_id("b5c4aca8-95c7-4b2b-8674-ef7c0e3fd16f");
-        
-        $this->event = $this->event_builder->build();
     }
     
     public function test_builds_class()
@@ -66,18 +72,10 @@ class EventBuilderTest extends \Tests\TestCase
         $this->assertEquals($payload, $this->event->payload);
         $this->assertEquals($command_id, $this->event->command_id);
     }
-    
-    public function test_resets_after_build()
-    {
-        $event = $this->event_builder->build();
         
-        $this->assertNull($event->aggregate_id);
-        $this->assertNull($event->payload);
-        $this->assertEquals(new Schema(), $event->schema);
-    }
-    
     public function test_can_set_id()
     {
+        $this->prepare_event();
         $id = 'a7285082-a50c-4593-8b13-06a0fd75ba71';
         $this->event_builder->set_event_id($id);
         
@@ -87,10 +85,24 @@ class EventBuilderTest extends \Tests\TestCase
     
     public function test_can_set_occurred_at()
     {
+        $this->prepare_event();
         $datetime = "2014-10-10 12:12:12";
         $this->event_builder->set_occured_at($datetime);
         
         $event = $this->event_builder->build();
         $this->assertEquals($datetime, $event->occured_at);
+    }
+    
+    public function test_will_not_let_you_build_if_params_are_missing()
+    {
+        $this->event_builder->set_aggregate_id("a955d32b-0130-463f-b3ef-23adec9af469")  
+            ->set_command_id("88f2ecaa-81dd-467f-851d-cdd214f3f3bb")
+            ->set_schema_event_id("14c3896d-092e-4370-bf72-2093facc9792")
+            ->set_schema_aggregate_id("b5c4aca8-95c7-4b2b-8674-ef7c0e3fd16f");
+        
+        $this->expectException(EventBuilderException::class);
+        $this->expectExceptionMessage("Payload is missing, cannot build event");
+        
+        $this->event_builder->build();
     }
 }

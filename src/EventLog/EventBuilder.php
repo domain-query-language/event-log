@@ -17,11 +17,21 @@ class EventBuilder
     private function setup_fresh_event()
     {
         $this->event = new Event(); 
+        $this->setup_optional_properties();
+        $this->setup_mandatory_properties();
+    }
+    
+    private function setup_optional_properties()
+    {
         $this->event->event_id = null;
+        $this->occured_at = null;
+    }
+    
+    private function setup_mandatory_properties()
+    {
+        $this->event->payload = null;        
         $this->event->aggregate_id = null;
         $this->event->command_id = null;
-        $this->occured_at = null;
-        $this->payload = null;
         $this->event->schema = new Schema();
     }
     
@@ -72,6 +82,22 @@ class EventBuilder
         $event = $this->event;
         $event->event_id = $event->event_id ?: $this->id_generator->generate();
         $event->occured_at = $event->occured_at ?: $this->datetime_generator->generate();
+        
+        if (is_null($event->payload)) {
+            throw new EventBuilderException("Payload is missing, cannot build event");
+        }
+        if (is_null($event->aggregate_id)) {
+            throw new EventBuilderException("AggregateID is missing, cannot build event");
+        }
+        if (is_null($event->command_id)) {
+            throw new EventBuilderException("CommandID is missing, cannot build event");
+        }
+        if (is_null($event->schema->event_id)) {
+            throw new EventBuilderException("Schema EventID is missing, cannot build event");
+        }
+        if (is_null($event->schema->aggregate_id)) {
+            throw new EventBuilderException("Schema AggregateID is missing, cannot build event");
+        }
         
         $this->setup_fresh_event();
         
