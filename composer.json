@@ -26,6 +26,9 @@
     ],
     "test-integration": [
       "vendor/bin/phpunit tests/Integration"
+    ],
+    "test-full": [
+      "vendor/bin/phpunit"
     ]
   },
   "config": {

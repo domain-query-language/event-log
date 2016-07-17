@@ -65,7 +65,7 @@ abstract class AbstractEventStreamLockerTest extends TestCase
     {
         $stub_datetime_generator = $this->stub(DateTimeGenerator::class);
         
-        $timestamps = ['2014-10-10 00:00:00.000', '2014-10-10 00:00:00.500'];
+        $timestamps = ['2014-10-10 00:00:00.000', '2014-10-10 00:00:00.500', '2014-10-10 00:00:00.500'];
         $stub_datetime_generator->generate()
             ->will(function() use (&$timestamps){
                 return each($timestamps)['value'];

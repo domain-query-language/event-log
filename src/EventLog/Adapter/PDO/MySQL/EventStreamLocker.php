@@ -1,4 +1,4 @@
-<?php namespace EventSourced\EventLog\Adapter\PDO\SQLite;
+<?php namespace EventSourced\EventLog\Adapter\PDO\MySQL;
 
 use EventSourced\EventLog\StreamID;
 use EventSourced\EventLog\DateTimeGenerator;
@@ -8,19 +8,21 @@ class EventStreamLocker implements \EventSourced\EventLog\EventStreamLocker
 {
     private $pdo;
     private $datetime_generator;
+    private $id_transformer;
     
     public function __construct(\PDO $pdo, DateTimeGenerator $datetime_generator)
     {
         $this->pdo = $pdo;
         $this->datetime_generator = $datetime_generator;
+        $this->id_transformer = new UuidToBinaryTransformer();
     }
     
     public function lock(StreamID $stream_id)
     {
         $now = $this->datetime_generator->generate();
         
-        $key = $stream_id->domain_id.",".$stream_id->schema_id;
-        
+        $key = $this->encode_stream_id($stream_id);
+
         $insert = "
             INSERT INTO event_stream_lock
                 (stream_id, datetime)
@@ -36,6 +38,12 @@ class EventStreamLocker implements \EventSourced\EventLog\EventStreamLocker
                 throw new \EventSourced\EventLog\EventStreamLockerException();
             }        
         }
+    }
+    
+    private function encode_stream_id(StreamID $stream_id)
+    {
+        return $this->id_transformer->to_binary($stream_id->domain_id)
+            .$this->id_transformer->to_binary($stream_id->schema_id);
     }
     
     protected function is_timed_out($key, $now)
@@ -66,7 +74,7 @@ class EventStreamLocker implements \EventSourced\EventLog\EventStreamLocker
         $micro = abs($micro1 - $micro2);
 
         $difference = $diff.".".$micro;
-        
+
         return (float)$difference;
     }
     
@@ -86,7 +94,7 @@ class EventStreamLocker implements \EventSourced\EventLog\EventStreamLocker
     
     public function unlock(StreamID $stream_id)
     {
-        $key = $stream_id->domain_id.",".$stream_id->schema_id;
+        $key = $this->encode_stream_id($stream_id);
         
         $delete = "DELETE FROM event_stream_lock WHERE stream_id =?";
 
