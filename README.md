@@ -12,6 +12,7 @@ Using the EventLog is pretty easy, you just instantiate it with the right EventR
 if you're using a Dependency Injection system, then easiest way to do it is to map the interface 'EventRepository' to the adapter of your choice (stored in the Adapter folder).
 If you're using Laravel (which we are), you can just use the Laravel adapter, and the DI system will take care of everything else.
 
+### Laravel Setup:
 Here's some sample code using a standard DI system and Laravels providers.
 
 First setup the provider and point the event repo interface at the right adapter
