@@ -110,13 +110,13 @@ class EventRepository implements \EventSourced\EventLog\EventRepository
     private function tranform_event_to_row(Event $event)
     {
         return [
-            $event->event_id,
-            $event->command_id,
-            $event->aggregate_id,
-            $event->schema->event_id,
-            $event->schema->aggregate_id,
-            $event->occured_at,
-            json_encode($event->payload)
+            $event->event_id(),
+            $event->command_id(),
+            $event->aggregate_id(),
+            $event->schema()->event_id(),
+            $event->schema()->aggregate_id(),
+            $event->occured_at(),
+            json_encode($event->payload())
         ];
     }
 }

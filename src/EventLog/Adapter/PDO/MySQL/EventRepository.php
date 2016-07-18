@@ -126,13 +126,13 @@ class EventRepository implements \EventSourced\EventLog\EventRepository
     private function tranform_event_to_row(Event $event)
     {
         return [
-            $this->uuid_to_binary($event->event_id),
-            $this->uuid_to_binary($event->command_id),
-            $this->uuid_to_binary($event->aggregate_id),
-            $this->uuid_to_binary($event->schema->event_id),
-            $this->uuid_to_binary($event->schema->aggregate_id),
-            $event->occured_at,
-            json_encode($event->payload)
+            $this->uuid_to_binary($event->event_id()),
+            $this->uuid_to_binary($event->command_id()),
+            $this->uuid_to_binary($event->aggregate_id()),
+            $this->uuid_to_binary($event->schema()->event_id()),
+            $this->uuid_to_binary($event->schema()->aggregate_id()),
+            $event->occured_at(),
+            json_encode($event->payload())
         ];
     }
 }
