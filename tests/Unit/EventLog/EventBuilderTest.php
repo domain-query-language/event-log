@@ -45,21 +45,22 @@ class EventBuilderTest extends \Tests\TestCase
     
     public function test_gives_event_id()
     {
-        $this->assertEquals("87484542-4a35-417e-8e95-5713b8f55c8e", $this->event->event_id);
+        $this->assertEquals("87484542-4a35-417e-8e95-5713b8f55c8e", $this->event->event_id());
     }
     
     public function test_gives_occured_at()
     {
-        $this->assertEquals("2014-10-10 12:12:12", $this->event->occured_at);
+        $this->assertEquals("2014-10-10 12:12:12", $this->event->occured_at());
     }
    
     public function test_populates_schema()
     {
-        $expected = new Schema();
-        $expected->event_id = "14c3896d-092e-4370-bf72-2093facc9792";
-        $expected->aggregate_id = "b5c4aca8-95c7-4b2b-8674-ef7c0e3fd16f";
-      
-        $this->assertEquals($expected, $this->event->schema);
+        $expected = new Schema(
+            "14c3896d-092e-4370-bf72-2093facc9792",
+            "b5c4aca8-95c7-4b2b-8674-ef7c0e3fd16f"
+        );
+
+        $this->assertEquals($expected, $this->event->schema());
     }
     
     public function test_populates_domain()
@@ -68,9 +69,9 @@ class EventBuilderTest extends \Tests\TestCase
         $payload = (object)['value'=>true];
         $command_id = "88f2ecaa-81dd-467f-851d-cdd214f3f3bb";
         
-        $this->assertEquals($aggregate_id, $this->event->aggregate_id);
-        $this->assertEquals($payload, $this->event->payload);
-        $this->assertEquals($command_id, $this->event->command_id);
+        $this->assertEquals($aggregate_id, $this->event->aggregate_id());
+        $this->assertEquals($payload, $this->event->payload());
+        $this->assertEquals($command_id, $this->event->command_id());
     }
         
     public function test_can_set_id()
@@ -80,7 +81,7 @@ class EventBuilderTest extends \Tests\TestCase
         $this->event_builder->set_event_id($id);
         
         $event = $this->event_builder->build();
-        $this->assertEquals($id, $event->event_id);
+        $this->assertEquals($id, $event->event_id());
     }
     
     public function test_can_set_occurred_at()
@@ -90,7 +91,7 @@ class EventBuilderTest extends \Tests\TestCase
         $this->event_builder->set_occured_at($datetime);
         
         $event = $this->event_builder->build();
-        $this->assertEquals($datetime, $event->occured_at);
+        $this->assertEquals($datetime, $event->occured_at());
     }
     
     public function test_will_not_let_you_build_if_params_are_missing()
